@@ -113,7 +113,7 @@ if not st.session_state.ukoly:
 else:
     for i, ukol in enumerate(st.session_state.ukoly):
         # Uděláme si hezčí rozložení: checkbox (vlevo), text úkolu, smazání (vpravo)
-        col1, col2 = st.columns([1, 12, 1]) # Větší mezera pro smazání, ať to nelítá
+        col1, col2, col3 = st.columns([1, 12, 1]) # Větší mezera pro smazání, ať to nelítá
 
         with col1:
             # Checkbox bez textu
