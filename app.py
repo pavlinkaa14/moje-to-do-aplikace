@@ -81,6 +81,7 @@ with st.form("muj_formular", clear_on_submit=True):
         uloz_ukoly(st.session_state.ukoly)
         st.rerun()
     }
+    
 st.subheader("Seznam úkolů")
 
 if not st.session_state.ukoly:
