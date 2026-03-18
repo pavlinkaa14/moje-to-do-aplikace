@@ -81,14 +81,17 @@ st.title("💖 TO-DO list")
 
 # --- FORMULÁŘ PRO ENTER ---
 with st.form("muj_formular", clear_on_submit=True):
-    novy = st.text_input("Zadej nový úkol", placeholder="Např. Koupit donut 🍩")
+    novy = st.text_input("Zadej nový úkol", placeholder="...")
     tlacitko = st.form_submit_button("Přidat ✨")
     
     if tlacitko and novy.strip():
         st.session_state.ukoly.append([novy.strip(), False])
         uloz_ukoly(st.session_state.ukoly)
         st.rerun()
-
+/* Pojistka pro text uvnitř submit tlačítka */
+    .stButton p {
+        color: #ffffff !important;
+    }
 st.subheader("Seznam úkolů")
 
 if not st.session_state.ukoly:
