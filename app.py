@@ -34,6 +34,14 @@ st.markdown("""
     html, body, [class*="css"], p, h1, h2, h3, label, input {
         color: #000000 !important;
     }
+    /* Styl pro tlačítko "Přidat" */
+    .stButton>button {
+        background-color: #ff69b4 !important; /* Barva pozadí tlačítka */
+        color: #ffffff !important;           /* Barva textu na tlačítku - BÍLÁ */
+        border: none !important;
+        border-radius: 20px !important;
+        font-weight: bold !important;
+    }
     /* Zarovnání textu úkolu na střed řádku */
     .stWrite {
         line-height: 2.5rem;
