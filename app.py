@@ -1,5 +1,9 @@
 import streamlit as st
 
+# --- NASTAVENÍ STRÁNKY (Ikona a název v tabu prohlížeče) ---
+st.set_page_config(page_title="Pájův Růžový Seznam", page_icon="📝")
+
+# --- FUNKCE PRO NAČÍTÁNÍ A UKLÁDÁNÍ (Tohle je tvůj původní kód) ---
 def nacti_ukoly():
     ukoly = []
     try:
@@ -24,34 +28,110 @@ def uloz_ukoly(ukoly):
             hotovo = "1" if ukol[1] else "0"
             soubor.write(f"{nazev};{hotovo}\n")
 
-# uloží data mezi refreshi
+# --- CUSTOM CSS (Magie pro růžové pozadí a fonty) ---
+# Tady si můžeš změnit barvy: lightpink, ffcccc, darkmagenta...
+# Font: 'Poppins' nebo 'Montserrat' (pokud bys chtěl kulatější)
+st.markdown("""
+<style>
+    /* 1. Růžové pozadí celé stránky */
+    .stApp {
+        background-color: #ffcccc; /* Světle růžová (zkus #ffb6c1 nebo #ff69b4 pro sytější) */
+        color: #333; /* Barva textu */
+    }
+
+    /* 2. Stylové písmo (Kulatější a čistší) */
+    html, body, [class*="css"]  {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    }
+
+    /* 3. Styly pro hlavní nadpis */
+    .stTitle {
+        color: #db2777; /* Tmavě růžová pro nadpis */
+        text-shadow: 2px 2px 4px #ffb6c1; /* Jemný stín */
+    }
+
+    /* 4. Styly pro tlačítko "Přidat" */
+    .stButton>button {
+        background-color: transparent;
+        color: #db2777; /* Růžový text tlačítka */
+        border: 2px solid #db2777; /* Růžové orámování */
+        border-radius: 20px; /* Kulaté rohy */
+        font-weight: bold;
+    }
+    .stButton>button:hover {
+        background-color: #db2777; /* Po najetí myší se vyplní růžově */
+        color: white; /* Text zbělá */
+        border-color: #db2777;
+    }
+
+    /* 5. Styly pro smazací tlačítko (Křížek) */
+    .stButton>button[key^="del"] {
+        border-radius: 50%; /* Úplně kulatý křížek */
+        border: none;
+        background-color: #ff69b4; /* Sytá růžová pro smazání */
+        color: white;
+    }
+    .stButton>button[key^="del"]:hover {
+        background-color: #db2777; /* Po najetí myší ztmavne */
+    }
+
+    /* 6. Vzhled pro checkbox */
+    .stCheckbox label {
+        color: #333; /* Barva textu u checkboxu */
+        font-size: 18px; /* Trochu větší písmo */
+    }
+    /* Přeškrtnutý text pro hotový úkol */
+    .stCheckbox label[class*="css"] {
+        text-decoration: line-through; 
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# --- INICIALIZACE SESSION STATE ---
 if "ukoly" not in st.session_state:
     st.session_state.ukoly = nacti_ukoly()
 
-st.title("📝 Můj TO-DO list")
+# --- HLAVNÍ ČÁST APLIKACE ---
+st.title("💖 Můj TO-DO list")
 
-# přidání úkolu
-novy = st.text_input("Zadej nový úkol")
+# Přidání úkolu
+novy = st.text_input("Zadej nový úkol", placeholder="Např. Koupit donut 🍩")
 
-if st.button("Přidat"):
+if st.button("Přidat ✨"):
     if novy.strip():
-        st.session_state.ukoly.append([novy, False])
+        # Přidáme nový úkol, false = není hotový
+        st.session_state.ukoly.append([novy.strip(), False])
         uloz_ukoly(st.session_state.ukoly)
+        # Smažeme input (tohle je malý hack)
+        st.rerun()
 
-# seznam
+# Seznam úkolů
 st.subheader("Seznam úkolů")
 
-for i, ukol in enumerate(st.session_state.ukoly):
-    col1, col2 = st.columns([4,1])
+if not st.session_state.ukoly:
+    st.info("Zatím nemáš žádné úkoly! Přidej si nějaký. 🎉")
+else:
+    for i, ukol in enumerate(st.session_state.ukoly):
+        # Uděláme si hezčí rozložení: checkbox (vlevo), text úkolu, smazání (vpravo)
+        col1, col2 = st.columns([1, 12, 1]) # Větší mezera pro smazání, ať to nelítá
 
-    with col1:
-        checked = st.checkbox(ukol[0], value=ukol[1], key=i)
-        st.session_state.ukoly[i][1] = checked
+        with col1:
+            # Checkbox bez textu
+            checked = st.checkbox("", value=ukol[1], key=f"check_{i}")
+            # Aktualizujeme state, pokud se změní
+            st.session_state.ukoly[i][1] = checked
+            
+        with col2:
+            # Zobrazíme text (a přeškrtneme ho, pokud je hotovo)
+            text_styl = f"~~{ukol[0]}~~" if ukol[1] else ukol[0]
+            st.write(text_styl, unsafe_allow_html=True)
 
-    with col2:
-        if st.button("❌", key=f"del{i}"):
-            st.session_state.ukoly.pop(i)
-            uloz_ukoly(st.session_state.ukoly)
-            st.rerun()
+        with col3:
+            # Smazací tlačítko (Křížek)
+            if st.button("❌", key=f"del_{i}"):
+                st.session_state.ukoly.pop(i)
+                uloz_ukoly(st.session_state.ukoly)
+                st.rerun()
 
-uloz_ukoly(st.session_state.ukoly)
+    # Automaticky uložíme po každém renderu (pro jistotu při změně checkboxů)
+    uloz_ukoly(st.session_state.ukoly)
