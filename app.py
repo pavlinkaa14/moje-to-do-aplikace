@@ -30,7 +30,10 @@ st.markdown("""
     .stApp {
         background-color: #ffcccc;
     }
-    
+    /* Všechno písmo bude černé */
+    html, body, [class*="css"], p, h1, h2, h3, label, input {
+        color: #000000 !important;
+    }
     /* Zarovnání textu úkolu na střed řádku */
     .stWrite {
         line-height: 2.5rem;
@@ -66,7 +69,7 @@ st.markdown("""
 if "ukoly" not in st.session_state:
     st.session_state.ukoly = nacti_ukoly()
 
-st.title("💖 Můj TO-DO list")
+st.title("💖 TO-DO list")
 
 # --- FORMULÁŘ PRO ENTER ---
 with st.form("muj_formular", clear_on_submit=True):
