@@ -1,7 +1,7 @@
 import streamlit as st
 
 # --- NASTAVENÍ STRÁNKY (Ikona a název v tabu prohlížeče) ---
-st.set_page_config(page_title="Pájův Růžový Seznam", page_icon="📝")
+st.set_page_config(page_title="Páji to-do list", page_icon="🌸")
 
 # --- FUNKCE PRO NAČÍTÁNÍ A UKLÁDÁNÍ (Tohle je tvůj původní kód) ---
 def nacti_ukoly():
@@ -95,7 +95,7 @@ if "ukoly" not in st.session_state:
 st.title("💖 Můj TO-DO list")
 
 # Přidání úkolu
-novy = st.text_input("Zadej nový úkol", placeholder="Např. Koupit donut 🍩")
+novy = st.text_input("Zadej nový úkol")
 
 if st.button("Přidat ✨"):
     if novy.strip():
