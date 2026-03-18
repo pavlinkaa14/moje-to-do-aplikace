@@ -80,7 +80,6 @@ with st.form("muj_formular", clear_on_submit=True):
         st.session_state.ukoly.append([novy.strip(), False])
         uloz_ukoly(st.session_state.ukoly)
         st.rerun()
-    }
     
 st.subheader("Seznam úkolů")
 
