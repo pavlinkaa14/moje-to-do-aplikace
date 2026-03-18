@@ -32,7 +32,7 @@ st.markdown("""
     }
     /* Všechno písmo bude černé */
     html, body, [class*="css"], p, h1, h2, h3, label, input {
-        color: #000000 !important;
+        color: ##ff69b4 !important;
     }
     /* Zarovnání textu úkolu na střed řádku */
     .stWrite {
