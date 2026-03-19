@@ -51,7 +51,7 @@ st.title("💖 Můj TO-DO list")
 
 # --- FORMULÁŘ PRO PŘIDÁVÁNÍ ---
 with st.form("muj_formular", clear_on_submit=True):
-    novy = st.text_input("Zadej nový úkol", placeholder="Napiš sem něco... ✍️")
+    novy = st.text_input("Zadej nový úkol", placeholder="... ✍️")
     submit = st.form_submit_button("Přidat úkol ✨")
     
     if submit and novy.strip():
